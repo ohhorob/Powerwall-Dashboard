@@ -363,14 +363,7 @@
           },
           "unit": "bps"
         },
-        "overrides": [
-          {
-            "matcher": { "id": "byRegexp", "options": "TX.*" },
-            "properties": [
-              { "id": "custom.transform", "value": "negative-Y" }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
       "id": 8,
@@ -410,14 +403,7 @@
           },
           "unit": "bps"
         },
-        "overrides": [
-          {
-            "matcher": { "id": "byRegexp", "options": "TX.*" },
-            "properties": [
-              { "id": "custom.transform", "value": "negative-Y" }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
       "id": 9,
