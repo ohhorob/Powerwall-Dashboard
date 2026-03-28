@@ -1,4 +1,4 @@
-# 1970-01-02 01:13:40 by RouterOS 7.16.1
+# 2026-03-28 13:22:24 by RouterOS 7.16.1
 # software id = HHC3-0QDD
 #
 # model = RB952Ui-5ac2nD
@@ -15,16 +15,15 @@ add comment=defconf name=LAN
 /interface wireless security-profiles
 set [ find default=yes ] authentication-types=wpa2-psk comment=defconf \
     disable-pmkid=yes mode=dynamic-keys supplicant-identity=MikroTik
-add authentication-types=wpa2-psk mode=dynamic-keys name=powerwall-profile \
-    supplicant-identity=MikroTik
+add authentication-types=wpa-psk,wpa2-psk disable-pmkid=yes group-ciphers=\
+    tkip,aes-ccm mode=dynamic-keys name=powerwall-profile \
+    supplicant-identity=MikroTik unicast-ciphers=tkip,aes-ccm
 /interface wireless
-set [ find default-name=wlan1 ] band=2ghz-b/g/n channel-width=20/40mhz-XX \
-    country="united states" disabled=no distance=indoors frequency=auto \
-    security-profile=powerwall-profile ssid=TEG-11W wireless-protocol=802.11
+set [ find default-name=wlan1 ] band=2ghz-b/g/n country="united states" \
+    disabled=no distance=indoors frequency=auto security-profile=\
+    powerwall-profile ssid=TEG-11W
 /ip pool
 add name=default-dhcp ranges=192.168.88.10-192.168.88.254
-/ip dhcp-server
-add address-pool=default-dhcp disabled=yes interface=bridge name=defconf
 /disk settings
 set auto-media-interface=bridge auto-media-sharing=yes auto-smb-sharing=yes
 /interface bridge port
@@ -43,8 +42,9 @@ add address=192.168.88.1/24 comment=defconf interface=bridge network=\
     192.168.88.0
 add address=192.168.1.247/24 interface=bridge network=192.168.1.0
 /ip dhcp-client
-# Interface not active
 add add-default-route=no interface=wlan1 use-peer-dns=no
+/ip dhcp-server
+add address-pool=default-dhcp disabled=yes interface=bridge name=defconf
 /ip dhcp-server network
 add address=192.168.88.0/24 comment=defconf dns-server=192.168.88.1 gateway=\
     192.168.88.1
@@ -141,8 +141,12 @@ add action=accept chain=forward comment=\
 add action=drop chain=forward comment=\
     "defconf: drop everything else not coming from LAN" in-interface-list=\
     !LAN
+/system clock
+set time-zone-name=America/Los_Angeles
 /system identity
 set name=powerwall-bridge
+/system logging
+add topics=wireless,debug
 /system note
 set show-at-login=no
 /tool mac-server
