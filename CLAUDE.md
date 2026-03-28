@@ -45,6 +45,18 @@ uv run mikrotik-metrics.py --loop   # every 30s
 uv run mikrotik-metrics.py --dry-run  # test without writing
 ```
 
+## Pending Investigation: is NAT on wlan1 actually required?
+
+The Powerwall has both a WiFi AP (TEG-11W, 192.168.91.x) AND an ethernet port on the
+home network (192.168.1.x). This means it may be able to route replies back to the home
+network without NAT on the MikroTik.
+
+**Test after router relocation + rewiring:** temporarily remove the masquerade rule and
+verify pypowerwall can still reach TEDAPI. Three things to check:
+1. Asymmetric routing — request arrives at Powerwall via WiFi, reply leaves via ethernet
+2. Whether TEDAPI is bound to the WiFi interface (requiring 192.168.91.x source IP)
+3. MikroTik stateful firewall — ether1 is in the WAN list and may drop asymmetric replies
+
 ## Repository
 
 - Upstream: `origin` → `https://github.com/jasonacox/Powerwall-Dashboard.git`
