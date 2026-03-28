@@ -20,6 +20,7 @@ influxdb.env
 powerwall.extend.yml
 pypowerwall.env
 telegraf.local
+tools/mikrotik/.env
 
 # Auth files
 .auth/.pypowerwall.auth
